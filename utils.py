@@ -8,19 +8,6 @@ import torch.autograd as autograd
 from scipy.spatial.distance import cdist
 
 
-def pairwise_distances(x, y=None):
-    x_norm = (x ** 2).sum(1).view(-1, 1)
-    if y is not None:
-        y_t = torch.transpose(y, 0, 1)
-        y_norm = (y ** 2).sum(1).view(1, -1)
-    else:
-        y_t = torch.transpose(x, 0, 1)
-        y_norm = x_norm.view(1, -1)
-
-    dist = x_norm + y_norm - 2.0 * torch.mm(x, y_t)
-    return torch.clamp(dist, 0.0, np.inf)
-
-
 def plot_to_tensor(fig_plot):
     buf = io.BytesIO()
     fig_plot.savefig(buf, format='jpeg')
